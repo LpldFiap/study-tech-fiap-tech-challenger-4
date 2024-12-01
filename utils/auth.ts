@@ -1,14 +1,27 @@
-import { TUser } from "../types/user";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TUser } from '../types/user';
 
-export function checkAuth() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  if (user && user.email) {
-    return user.role; // Retorna o perfil do usuário (teacher ou student)
+export async function checkAuth(): Promise<string | null> {
+  try {
+    const user = await AsyncStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      if (parsedUser && parsedUser.email) {
+        return parsedUser.role; 
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error('Error checking authentication:', error);
+    return null;
   }
-  return null; // Usuário não está logado
 }
 
-export function saveUser({ name, email, role, _id }: TUser) {
-  const user = { name, email, role, _id };
-  localStorage.setItem('user', JSON.stringify(user));
+export async function saveUser({ name, email, role, _id }: TUser): Promise<void> {
+  try {
+    const user = { name, email, role, _id };
+    await AsyncStorage.setItem('user', JSON.stringify(user));
+  } catch (error) {
+    console.error('Error saving user:', error);
+  }
 }
