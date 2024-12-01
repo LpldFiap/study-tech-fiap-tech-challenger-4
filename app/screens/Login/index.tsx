@@ -14,7 +14,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-export default function Login({ navigation }: any) {
+import { useNavigation } from '@react-navigation/native';
+
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,13 +27,15 @@ export default function Login({ navigation }: any) {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigation = useNavigation();
+
   const { authenticateUser } = useContext(AuthContext) as AuthContextType;
 
   const handleLoginSubmit = async () => {
     setIsLoading(true);
     const isUserAuthenticated = await authenticateUser({ email, password });
     if (isUserAuthenticated?.name) {
-      navigation.navigate("screens/Home/index");
+      navigation.navigate('Home', {email});
     } else {
       setErrorMessage("Credenciais incorretas");
     }
