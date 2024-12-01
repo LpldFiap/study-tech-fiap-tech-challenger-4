@@ -10,7 +10,7 @@ interface Post {
   author: string;
 }
 
-export default function Home({route}) {
+export default function Home() {
 
   const { data: postsData } = usePosts() as unknown as {data:Post[]};
 

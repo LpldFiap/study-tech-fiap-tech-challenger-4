@@ -35,7 +35,7 @@ export default function Login() {
     setIsLoading(true);
     const isUserAuthenticated = await authenticateUser({ email, password });
     if (isUserAuthenticated?.name) {
-      navigation.navigate('Home', {email});
+      navigation.navigate('Home');
     } else {
       setErrorMessage("Credenciais incorretas");
     }

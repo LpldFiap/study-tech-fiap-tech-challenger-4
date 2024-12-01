@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ActivityIndicator, View } from "react-native";
 import AuthUserProvider from "@/context/auth";
 import { PostsProvider } from "@/context/Posts/PostsContext";
-import { UsersProvider, useUsers } from "@/context/Users/UsersContext";
+import { UsersProvider } from "@/context/Users/UsersContext";
 import { PrivateRoute } from "@/components/shared/PrivateRoute";
 import Header from "@/components/shared/Header";
 
@@ -45,7 +45,7 @@ export default function AppRoutes() {
                           {() => (
                             <>
                               <Header />
-                              <Home route={useUsers} />
+                              <Home/>
                             </>
                           )}
                         </Tab.Screen>
