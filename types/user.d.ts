@@ -7,9 +7,10 @@ export type User = {
 }
 
 export type AuthContextType = {
-  authenticatedUser: User | null
-  authenticateUser: ({ email: string, password: string }) => Promise<User | null>
-}
+  authenticatedUser: User | null;
+  authenticateUser: ({ email, password }: { email: string; password: string }) => Promise<User | null>;
+  logoutUser: () => Promise<void>; // Adicione esta linha
+};
 export type TUserRole = 'student' | 'teacher';
 export type TUser = {
   name: string;
