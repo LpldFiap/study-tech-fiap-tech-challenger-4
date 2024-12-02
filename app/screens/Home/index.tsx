@@ -14,7 +14,8 @@ interface Post {
 }
 
 type RootStackParamList = {
-  CadastroProfessor: undefined;
+  Config: undefined;
+  Admin: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -34,8 +35,11 @@ export default function Home() {
 
   const navigation = useNavigation<NavigationProp>();
 
-  const handleRedirectCadastroProfessor = () => {
-    navigation.navigate("CadastroProfessor");
+  const handleRedirectConfig = () => {
+    navigation.navigate("Config");
+  };
+  const handleRedirectAdmin = () => {
+    navigation.navigate("Admin");
   };
   return (
     <View style={styles.homeContainer}>
@@ -49,7 +53,10 @@ export default function Home() {
           </View>
         </View>
         {user?.role === "teacher" && (
-        <Button title="Cadastro de Professor" onPress={handleRedirectCadastroProfessor} />
+        <Button title="Config" onPress={handleRedirectConfig} />
+        )}
+        {user?.role === "teacher" && (
+        <Button title="Admin" onPress={handleRedirectAdmin} />
         )}
       </View>
     </View>

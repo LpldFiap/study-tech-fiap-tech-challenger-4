@@ -2,7 +2,7 @@ import { getUser, updateUser } from '@/services/user.service';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, ActivityIndicator } from 'react-native';
 
-export default function CadastroProfessor() {
+export default function Config() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');

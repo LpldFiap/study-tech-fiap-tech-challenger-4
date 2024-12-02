@@ -7,7 +7,8 @@ import { UsersProvider } from "@/context/Users/UsersContext";
 // Removendo o lazy loading e importando as telas diretamente
 import Home from "../app/screens/Home/index";
 import Login from "../app/screens/Login/index";
-import CadastroProfessor from "@/app/screens/CadastroProfessor";
+import Config from "@/app/screens/Config";
+import Admin from "@/app/screens/Admin";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,8 @@ export default function AppRoutes() {
             >
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="CadastroProfessor" component={CadastroProfessor} />
+              <Stack.Screen name="Config" component={Config} />
+              <Stack.Screen name="Admin" component={Admin} />
             </Stack.Navigator>
           </Suspense>
         </UsersProvider>
