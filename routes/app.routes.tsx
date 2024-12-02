@@ -36,25 +36,7 @@ export default function AppRoutes() {
               }}
             >
               <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Main">
-                {() => (
-                  <PrivateRoute allowedRoles={["teacher", "student"]}>
-                    <Tab.Navigator>
-                      <Tab.Screen
-                        name="Home"
-                        options={{ headerShown: false }}
-                      >
-                        {() => (
-                          <>
-                            <Header />
-                            <Home />
-                          </>
-                        )}
-                      </Tab.Screen>
-                    </Tab.Navigator>
-                  </PrivateRoute>
-                )}
-              </Stack.Screen>
+              <Stack.Screen name="Home" component={Home} />
             </Stack.Navigator>
           </Suspense>
         </UsersProvider>
