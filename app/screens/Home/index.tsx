@@ -9,10 +9,21 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation/navigation';
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+
 export default function Home() {
-  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
+  const { authenticatedUser, logoutUser } = useContext(AuthContext) as AuthContextType;
   const { posts, loading } = usePosts();
   const navigation = useNavigation<HomeNavigationProp>();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Erro ao deslogar:', error);
+    }
+  };
+
   return (
     <View style={styles.homeContainer}>
       <View style={styles.infoField}>
@@ -21,8 +32,11 @@ export default function Home() {
             ? `Bom te ver, ${authenticatedUser.name}!`
             : 'Bem-vindo!'}
         </Text>
-        <View style={[styles.detailsContent]}>
-          <Text>Publicações</Text>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>Publicações</Text>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Sair</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -57,16 +71,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginTop: 10,
   },
-  infoText: { fontSize: 16, fontWeight: 'bold', marginTop: 24 },
-  detailsContent: {
-    fontSize: 14,
-    fontWeight: '400', 
-    marginTop: 20, 
-    padding: 5,
-    alignSelf: 'flex-start',
-    paddingHorizontal: 8,
+  infoText: { fontSize: 18, fontWeight: 'bold', marginTop: 15 },
+  headerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 16,
+    marginTop: 25,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    backgroundColor: colors.red[100],
+    padding: 8,
+    borderRadius: 8,
+  },
+  logoutText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   postsList: { marginTop: 16 },
   postItem: {
@@ -74,7 +101,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     backgroundColor: colors.zinc[200],
-    borderColor: colors.zinc[900]
+    borderColor: colors.zinc[900],
   },
   postTitle: { fontSize: 16, fontWeight: 'bold' },
   postContent: { fontSize: 14, color: colors.zinc[500] },
