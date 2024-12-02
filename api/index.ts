@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiURL = 'http://localhost:3011/';
+const apiURL = 'https://study-tech-phi.vercel.app/';
 
 const api = axios.create({
   baseURL: apiURL,

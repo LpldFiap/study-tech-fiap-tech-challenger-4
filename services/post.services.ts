@@ -1,7 +1,7 @@
 import { TPost } from "../types/posts";
 import { httpRequest } from "./http.services"
 
-const BASE_API = 'http://localhost:3011/';
+const BASE_API = 'https://study-tech-phi.vercel.app:3011/';
 
 export const getAllPosts = async (): Promise<TPost[]> => {
     const response = await httpRequest(`${BASE_API}posts`, { method: 'GET' });
