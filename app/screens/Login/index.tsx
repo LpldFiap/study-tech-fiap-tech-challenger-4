@@ -15,6 +15,14 @@ import {
 } from "react-native";
 
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  Home: undefined;
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,7 +35,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   const { authenticateUser } = useContext(AuthContext) as AuthContextType;
 
