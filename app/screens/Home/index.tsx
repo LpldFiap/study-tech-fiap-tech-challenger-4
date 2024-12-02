@@ -3,6 +3,8 @@ import { getUser } from "@/services/user.service";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useEffect, useState } from "react";
+import { TUser } from "@/types/user";
 
 interface Post {
   _id: number;
@@ -20,8 +22,15 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export default function Home() {
 
   const { data: postsData } = usePosts() as unknown as {data:Post[]};
+  const [user, setUser] = useState<TUser | null>(null);
 
-  const user = getUser()
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await getUser();
+      setUser(fetchedUser);
+    };
+    fetchUser();
+  }, []);
 
   const navigation = useNavigation<NavigationProp>();
 
