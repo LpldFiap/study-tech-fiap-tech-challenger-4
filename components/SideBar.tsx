@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Animated,
   Easing,
@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/app/navigation/navigation";
 import { colors } from "@/styles/colors";
-
+import { AuthContext } from "../context/auth";
 type NavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface SideBarProps {
@@ -29,7 +29,7 @@ const SideBar: React.FC<SideBarProps> = ({
 }) => {
   const navigation = useNavigation<NavigationProp>();
   const sidebarAnimation = useState(new Animated.Value(-200))[0];
-
+  const authContext = useContext(AuthContext);
   React.useEffect(() => {
     const toValue = isOpen ? 0 : -200;
     Animated.timing(sidebarAnimation, {
@@ -47,7 +47,15 @@ const SideBar: React.FC<SideBarProps> = ({
   const handleRedirectAdmin = () => {
     navigation.navigate("Admin");
   };
-
+  const handleLogout = async () => {
+    if (authContext?.logoutUser) {
+      await authContext.logoutUser("Login");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
+    }
+  };
   return (
     <Animated.View
       style={[
@@ -59,7 +67,7 @@ const SideBar: React.FC<SideBarProps> = ({
         <Text style={styles.closeButtonText}>x</Text>
       </TouchableOpacity>
       <View style={styles.buttonGroup}>
-        <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
         {authenticatedUser?.role === "teacher" && (

@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { AuthContext } from "@/context/auth";
 import { usePosts } from "@/context/Posts/PostsContext";
+import { AuthContext } from "@/context/auth";
 import { AuthContextType } from "@/types/user";
 import { colors } from "@/styles/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -29,7 +29,7 @@ export default function Home() {
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
+      await logoutUser("Login");
     } catch (error) {
       console.error("Erro ao deslogar:", error);
     }
@@ -53,7 +53,7 @@ export default function Home() {
         <View style={styles.infoField}>
           <Text style={styles.infoText}>
             {authenticatedUser
-              ?`Bom te ver,${capitalizeFirstLetter(authenticatedUser.name)}!`
+              ?`Bom te ver, ${capitalizeFirstLetter(authenticatedUser.name)}!`
               : "Bem-vindo!"}
           </Text>
           <Text style={styles.headerText}>Publicações</Text>

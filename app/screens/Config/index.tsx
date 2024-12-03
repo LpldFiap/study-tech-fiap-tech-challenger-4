@@ -1,6 +1,7 @@
 import { getUser, updateUser } from '@/services/user.service';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, ActivityIndicator } from 'react-native';
+import BackButton from '@/components/BackButton';
 
 export default function Config() {
   const [name, setName] = useState('');
@@ -8,7 +9,7 @@ export default function Config() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     // Fetch user data on mount
     const fetchUserData = async () => {
@@ -20,7 +21,7 @@ export default function Config() {
     };
     fetchUserData();
   }, []);
-
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   const handleSubmit = async () => {
     if (!name || !email || !newPassword || !confirmNewPassword) {
       Alert.alert('Erro', 'Preencha todos os campos');
@@ -62,6 +63,7 @@ export default function Config() {
 
   return (
     <View style={styles.container}>
+    <BackButton/>
       <Text style={styles.title}>Configuração de Perfil</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Nome</Text>
