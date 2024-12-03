@@ -3,5 +3,9 @@ import { TPost } from '../../types/posts'; // Certifique-se de ter esse tipo exp
 export type RootStackParamList = {
   Home: undefined; // Tela Home não tem parâmetros
   Login: undefined;
-  PostDetails: { post: TPost }; // Tela PostDetails recebe um parâmetro "post"
+  PostDetails: { post: TPost }; // Tela PostDetails recebe um parâmetro "post",
+  Config: undefined; // Adicione essa rota
+  Admin: undefined;
+  RegisterPost: undefined;
+  EditPost: undefined;
 };
