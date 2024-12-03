@@ -5,7 +5,9 @@ export type RootStackParamList = {
   Login: undefined;
   PostDetails: { post: TPost }; // Tela PostDetails recebe um parâmetro "post",
   Config: undefined; // Adicione essa rota
-  Admin: undefined;
+  TeacherAdmin: undefined;
+  StudentAdmin: undefined;
   RegisterPost: undefined;
   EditPost: undefined;
+  EditUser: undefined;
 };

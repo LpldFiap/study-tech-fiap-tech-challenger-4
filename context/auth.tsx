@@ -48,7 +48,7 @@ function AuthUserProvider({ children }: { children: React.ReactNode }) {
     loadUserFromStorage();
   }, []);
 
-  const logoutUser = useCallback(async () => {
+  const logoutUser = async () => {
     try {
       console.log("Logout iniciado");
       await AsyncStorage.removeItem("authenticatedUser");
@@ -56,9 +56,11 @@ function AuthUserProvider({ children }: { children: React.ReactNode }) {
       setAuthenticatedUser(null);
       console.log("Estado atualizado para null");
     } catch (error) {
-      console.error("Error during logout:", error);
+      console.error("Erro ao realizar o logout:", error);
+      throw new Error("Erro durante o logout. Tente novamente mais tarde.");
     }
-  }, []);
+  };
+  
 
   return (
     <AuthContext.Provider value={{ authenticatedUser, authenticateUser, logoutUser }}>
