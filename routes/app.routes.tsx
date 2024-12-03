@@ -7,11 +7,13 @@ import { UsersProvider } from "@/context/Users/UsersContext";
 import Home from "@/app/screens/Home/index";
 import Login from "@/app/screens/Login/index";
 import Config from "@/app/screens/Config";
-import Admin from "@/app/screens/Admin";
 import PostDetails from "@/app/screens/PostDetails/index";
 import RegisterPostScreen from "@/app/screens/RegisterPost";
 import EditPostScreen from "@/app/screens/EditPostScreen";
 import { RootStackParamList } from "@/app/navigation/navigation";
+import TeacherAdmin from "@/app/screens/TeacherAdmin";
+import EditUser from "@/app/screens/EditUser";
+import StudentAdmin from "@/app/screens/StudentAdmin";
 
 // Criação do Stack com tipagem do parâmetro RootStackParamList
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -34,9 +36,11 @@ export default function AppRoutes() {
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Config" component={Config} />
-              <Stack.Screen name="Admin" component={Admin} />
+              <Stack.Screen name="TeacherAdmin" component={TeacherAdmin} />
+              <Stack.Screen name="StudentAdmin" component={StudentAdmin} />
               <Stack.Screen name="PostDetails" component={PostDetails} />
               <Stack.Screen name="RegisterPost" component={RegisterPostScreen} />
+              <Stack.Screen name="EditUser" component={EditUser} />
               {/* <Stack.Screen name="EditPost" component={EditPostScreen} /> */}
             </Stack.Navigator>
           </Suspense>

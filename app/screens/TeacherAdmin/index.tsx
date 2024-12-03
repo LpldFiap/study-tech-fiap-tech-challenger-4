@@ -1,7 +1,9 @@
 import { useUsers } from "@/context/Users/UsersContext";
 import { deleteUser, getUserId, getUserRole, updateUser } from "@/services/user.service";
 import { TUserRole } from "@/types/user";
-import React, { useEffect, useState } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,9 +14,17 @@ import {
   Alert,
 } from "react-native";
 
-export default function Admin() {
+type RootStackParamList = {
+  EditTeacher: undefined;
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+export default function TeacherAdmin() {
   const [role, setRole] = useState<TUserRole | null>(null);
   const { users, loading, fetchUsers } = useUsers();
+
+  const navigation = useNavigation<NavigationProp>();
 
   const changeUserRole = async ({ id, newRole }: { id?: string; newRole: TUserRole }) => {
     if (!id) return;
@@ -52,9 +62,11 @@ export default function Admin() {
     fetchRole();
   }, []);
 
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchUsers();
+    }, [fetchUsers])
+  );
 
   if (role !== "teacher") {
     return (
@@ -74,12 +86,20 @@ export default function Admin() {
     );
   }
 
+  const teacherUsers = users.filter((user) => user.role === "teacher");
+
   const renderUser = ({ item }: { item: any }) => (
     <View style={styles.userRow}>
       <Text style={styles.userInfo}>{item.name}</Text>
       <Text style={styles.userInfo}>{item.email}</Text>
       <Text style={styles.userInfo}>{item.role}</Text>
       <View style={styles.actionsContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EditUser", { user: item })}
+          style={[styles.actionButton, styles.editButton]}
+        >
+          <Text style={styles.buttonText}>Editar</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => changeUserRole({ id: item._id, newRole: "teacher" })}
           style={[
@@ -119,9 +139,9 @@ export default function Admin() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Administração de Usuários</Text>
+      <Text style={styles.header}>Administração de Professores</Text>
       <FlatList
-        data={users}
+        data={teacherUsers}
         keyExtractor={(item) => item._id ?? item.email}
         renderItem={renderUser}
         contentContainerStyle={styles.listContainer}
@@ -179,6 +199,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     justifyContent: "center",
     alignItems: "center",
+  },
+  editButton: {
+    backgroundColor: "#723172",
   },
   teacherButton: {
     backgroundColor: "#1E90FF",

@@ -62,8 +62,12 @@ export default function Home() {
     navigation.navigate("Config");
   };
 
-  const handleRedirectAdmin = () => {
-    navigation.navigate("Admin");
+  const handleRedirectTeacherAdmin = () => {
+    navigation.navigate("TeacherAdmin");
+  };
+
+  const handleRedirectStudentAdmin = () => {
+    navigation.navigate("StudentAdmin");
   };
 
   return (
@@ -94,9 +98,15 @@ export default function Home() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.adminButton}
-                onPress={handleRedirectAdmin}
+                onPress={handleRedirectTeacherAdmin}
               >
-                <Text style={styles.buttonText}>Admin</Text>
+                <Text style={styles.buttonText}>Gerenciar Professores</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.adminButton}
+                onPress={handleRedirectStudentAdmin}
+              >
+                <Text style={styles.buttonText}>Gerenciar Alunos</Text>
               </TouchableOpacity>
             </>
           )}
