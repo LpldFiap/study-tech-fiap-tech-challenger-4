@@ -4,14 +4,13 @@ import { AuthContextType, TUserRole, User } from "../types/user";
 import { findUserByEmail } from "../services/findUserByEmail";
 
 // Tipo para o usuário autenticado
-type AuthenticatedUser = Omit<User, "password">; // Exclui a senha do tipo User
+type AuthenticatedUser = Omit<User, "password">;
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
 
 function AuthUserProvider({ children }: { children: React.ReactNode }) {
   const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
 
-  // Método para autenticar o usuário
   const authenticateUser = useCallback(
     async ({ email, password }: { email: string; password: string }): Promise<User | null> => {
       const foundUser = await findUserByEmail(email, password);
@@ -19,7 +18,7 @@ function AuthUserProvider({ children }: { children: React.ReactNode }) {
       if (foundUser) {
         const user: User = {
           ...foundUser,
-          password, // Adiciona a senha ao usuário completo
+          password,
         };
 
         setAuthenticatedUser(user);
@@ -34,7 +33,6 @@ function AuthUserProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
-  // Carregar dados do usuário ao inicializar o contexto
   useEffect(() => {
     const loadUserFromStorage = async () => {
       try {
@@ -50,11 +48,13 @@ function AuthUserProvider({ children }: { children: React.ReactNode }) {
     loadUserFromStorage();
   }, []);
 
-  // Método para deslogar o usuário
   const logoutUser = useCallback(async () => {
     try {
+      console.log("Logout iniciado");
       await AsyncStorage.removeItem("authenticatedUser");
+      console.log("Usuário removido do AsyncStorage");
       setAuthenticatedUser(null);
+      console.log("Estado atualizado para null");
     } catch (error) {
       console.error("Error during logout:", error);
     }

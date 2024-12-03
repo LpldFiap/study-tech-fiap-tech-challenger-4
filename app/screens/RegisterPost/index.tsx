@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
 import { colors } from '@/styles/colors';
+import BackButton from '@/components/BackButton';
+import { AuthContext } from '@/context/auth';
+import { AuthContextType } from '@/types/user';
 
 const RegisterPostScreen = () => {
   // Estados do formulário
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [creatorName] = useState('João da Silva');  
+  const [author, setAuthor] = useState('');  
   const [creationDate] = useState(new Date().toLocaleString());  
+
+  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
+
+  function capitalizeFirstLetter(string: any) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  useEffect(() => {
+    if (authenticatedUser?.name) {
+      setAuthor(capitalizeFirstLetter(authenticatedUser.name));
+    }
+  }, [authenticatedUser]);
 
   const handleSubmit = () => {
     if (!title || !content) {
@@ -23,7 +38,7 @@ const RegisterPostScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Cadastrar Publicação</Text>
-
+      <BackButton />
       <View style={styles.formGroup}>
         <Text style={styles.label}>Título</Text>
         <TextInput
@@ -59,7 +74,7 @@ const RegisterPostScreen = () => {
         <Text style={styles.label}>Autor</Text>
         <TextInput
           style={styles.input}
-          value={creatorName}
+          value={author}
           editable={false}
         />
       </View>
