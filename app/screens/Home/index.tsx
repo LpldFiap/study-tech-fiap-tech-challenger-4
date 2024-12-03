@@ -34,10 +34,13 @@ export default function Home() {
   const navigation = useNavigation<HomeNavigationProp>();
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const sidebarAnimation = useState(new Animated.Value(-200))[0]; // Posição inicial da sidebar (fora da tela)
+  const sidebarAnimation = useState(new Animated.Value(-200))[0];
 
+  function capitalizeFirstLetter(string: any) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   const toggleSidebar = () => {
-    const toValue = isSidebarOpen ? -200 : 0; // Mostrar ou esconder
+    const toValue = isSidebarOpen ? -200 : 0;
     Animated.timing(sidebarAnimation, {
       toValue,
       duration: 300,
@@ -73,12 +76,12 @@ export default function Home() {
         ]}
       >
         <TouchableOpacity style={styles.closeButton} onPress={toggleSidebar}>
-        <Text style={styles.closeButtonText}>×</Text>
+          <Text style={styles.closeButtonText}>×</Text>
         </TouchableOpacity>
 
         <View style={styles.buttonGroup}>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Lohout</Text>
+            <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
 
           {authenticatedUser?.role === "teacher" && (
@@ -108,7 +111,7 @@ export default function Home() {
         <View style={styles.infoField}>
           <Text style={styles.infoText}>
             {authenticatedUser
-              ? `Bom te ver, ${authenticatedUser.name}!`
+              ? `Bom te ver, ${capitalizeFirstLetter(authenticatedUser.name)}!`
               : "Bem-vindo!"}
           </Text>
           <Text style={styles.headerText}>Publicações</Text>
@@ -137,6 +140,14 @@ export default function Home() {
           />
         )}
       </View>
+
+      {/* Register New Post Button */}
+      <TouchableOpacity
+        style={styles.RegisterNewPost}
+        onPress={() => navigation.navigate("RegisterPost")} // Navegar para a tela de criar novo post
+      >
+        <Text style={styles.RegisterNewPostText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -152,10 +163,10 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     width: 200,
-    backgroundColor: colors.green[700],
+    backgroundColor: colors.green[100],
     zIndex: 2,
     padding: 10,
-    justifyContent: "flex-start", // Alinhar elementos ao topo
+    justifyContent: "flex-start",
   },
   closeButton: {
     alignSelf: "flex-end",
@@ -169,14 +180,14 @@ const styles = StyleSheet.create({
   },
   buttonGroup: {
     marginTop: 20,
-    alignItems: "center", // Centralizar horizontalmente
+    alignItems: "center",
   },
   logoutButton: {
     padding: 10,
     borderRadius: 8,
     marginBottom: 10,
-    width: "80%", // Deixar largura consistente
-    alignItems: "center", // Centralizar o texto
+    width: "80%",
+    alignItems: "center",
   },
   configButton: {
     padding: 10,
@@ -186,7 +197,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   adminButton: {
-    // backgroundColor: colors.zinc[400],
     padding: 10,
     borderRadius: 8,
     marginBottom: 10,
@@ -209,10 +219,10 @@ const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     padding: 16,
-    backgroundColor: colors.zinc[200],
+    backgroundColor: colors.green[100],
   },
   menuButton: {
-    backgroundColor: colors.green[700],
+    backgroundColor: colors.green[100],
     padding: 8,
     borderRadius: 2,
     alignSelf: "flex-start",
@@ -225,8 +235,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  infoText: { fontSize: 18, fontWeight: "bold" },
-  headerText: { fontSize: 18, fontWeight: "bold", marginTop: 20 },
+  infoText: { fontSize: 18, fontWeight: "bold", color: colors.zinc[100] },
+  headerText: {
+    fontSize: 16,
+    color: colors.zinc[100],
+    marginTop: 10,
+    alignSelf: "flex-start",
+  },
   postsList: { marginTop: 16 },
   postItem: {
     marginBottom: 10,
@@ -236,4 +251,26 @@ const styles = StyleSheet.create({
   },
   postTitle: { fontSize: 16, fontWeight: "bold" },
   postContent: { fontSize: 14, color: colors.zinc[500], marginTop: 5 },
+
+  RegisterNewPost: {
+    position: "absolute",
+    bottom: 20, 
+    right: 20, 
+    width: 60, 
+    height: 60, 
+    borderRadius: 30, 
+    backgroundColor: colors.green[300],
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5, 
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+  },
+  RegisterNewPostText: {
+    fontSize: 30,
+    color: "white",
+    fontWeight: "bold",
+  },
 });

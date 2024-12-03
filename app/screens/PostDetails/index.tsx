@@ -2,10 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '@/styles/colors';
 import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack'; 
+import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation/navigation';
 
-// Tipagem das props de navegação e rota
 type PostDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PostDetails'>;
 type PostDetailsScreenRouteProp = RouteProp<RootStackParamList, 'PostDetails'>;
 
@@ -14,7 +13,6 @@ interface PostDetailsProps {
   navigation: PostDetailsScreenNavigationProp;
 }
 
-// Componente tipado diretamente, sem o React.FC
 const PostDetails = ({ route, navigation }: PostDetailsProps) => {
   const { post } = route.params;
 
@@ -25,29 +23,66 @@ const PostDetails = ({ route, navigation }: PostDetailsProps) => {
         <Text style={styles.backButtonText}>Voltar</Text>
       </TouchableOpacity>
 
-      {/* Detalhes do post */}
+      {/* Título do post */}
       <Text style={styles.title}>{post.title}</Text>
-      <Text style={styles.author}>Por: {post.author}</Text>
-      <Text style={styles.content}>{post.description}</Text>
+
+      {/* Detalhes do post */}
+      <View style={styles.ContainerContent}>
+        <Text style={styles.author}>Por: {post.author}</Text>
+        <Text style={styles.content}>{post.description}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: {
+    flex: 1,
+    padding: 16,
+    justifyContent: 'flex-start',
+    backgroundColor: colors.zinc[200],
+  },
   backButton: {
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
     marginBottom: 20,
-    width: 75, 
-    alignSelf: 'flex-start',
-    alignItems: 'flex-start',
+    width: 75,
   },
-  backButtonText: { fontSize: 16, color: colors.zinc[500], fontWeight: 'bold' },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 8 },
-  author: { fontSize: 14, color: '#555', marginBottom: 16 },
-  content: { fontSize: 16, lineHeight: 24 },
+  backButtonText: {
+    fontSize: 16,
+    color: colors.green[600],
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center',
+    alignSelf: 'center', 
+  },
+  ContainerContent: {
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: colors.zinc[300],
+    alignItems: 'center',
+    marginTop: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  author: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 8,
+  },
+  content: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
 });
 
 export default PostDetails;
