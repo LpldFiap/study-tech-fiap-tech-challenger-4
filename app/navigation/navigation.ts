@@ -10,4 +10,5 @@ export type RootStackParamList = {
   RegisterPost: undefined;
   EditPost: undefined;
   EditUser: undefined;
+  Admin: undefined;
 };

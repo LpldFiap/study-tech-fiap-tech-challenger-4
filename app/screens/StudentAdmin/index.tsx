@@ -19,9 +19,11 @@ import { colors } from "@/styles/colors";
 import { AuthContext } from "@/context/auth";
 
 type RootStackParamList = {
-  EditUser: undefined;
+  EditUser: { user: any };
   Home: undefined;
   Config: undefined;
+  Login: undefined;
+  TeacherAdmin: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -63,7 +65,7 @@ export default function StudentAdmin() {
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
+       await logoutUser("Login");
       navigation.navigate("Login");
     } catch (error) {
       console.error("Erro ao deslogar:", error);

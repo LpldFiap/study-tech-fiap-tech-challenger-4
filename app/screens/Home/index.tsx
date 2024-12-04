@@ -1,21 +1,30 @@
 import React, { useContext, useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
+  Text,
   TouchableOpacity,
   FlatList,
+  Animated,
+  Easing,
 } from "react-native";
-import { usePosts } from "@/context/Posts/PostsContext";
 import { AuthContext } from "@/context/auth";
+import { usePosts } from "@/context/Posts/PostsContext";
 import { AuthContextType } from "@/types/user";
-import { colors } from "@/styles/colors";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/app/navigation/navigation";
-import SideBar from "@/components/SideBar";
+import { colors } from "@/styles/colors";
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
+
+// interface Post {
+//   _id: string;
+//   title: string;
+//   content: string;
+//   author: string;
+//   description: string;
+// }
 
 export default function Home() {
   const { authenticatedUser, logoutUser } = useContext(
@@ -23,29 +32,90 @@ export default function Home() {
   ) as AuthContextType;
   const { posts, loading } = usePosts();
   const navigation = useNavigation<HomeNavigationProp>();
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarAnimation = useState(new Animated.Value(-200))[0];
+
+  function capitalizeFirstLetter(string: any) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  const toggleSidebar = () => {
+    const toValue = isSidebarOpen ? -200 : 0;
+    Animated.timing(sidebarAnimation, {
+      toValue,
+      duration: 300,
+      useNativeDriver: false,
+      easing: Easing.ease,
+    }).start(() => setSidebarOpen(!isSidebarOpen));
+  };
 
   const handleLogout = async () => {
     try {
-      await logoutUser("Login");
+      // await logoutUser();
+      navigation.navigate("Login");
     } catch (error) {
       console.error("Erro ao deslogar:", error);
     }
   };
-  function capitalizeFirstLetter(string: any) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+
+  const handleRedirectConfig = () => {
+    navigation.navigate("Config");
+  };
+
+  const handleRedirectTeacherAdmin = () => {
+    navigation.navigate("TeacherAdmin");
+  };
+
+  const handleRedirectStudentAdmin = () => {
+    navigation.navigate("StudentAdmin");
+  };
+
   return (
     <View style={styles.container}>
+      
+      
       {/* Sidebar */}
-      <SideBar
-        isOpen={isSidebarOpen}
-        onToggle={toggleSidebar}
-        onLogout={handleLogout}
-        authenticatedUser={authenticatedUser}
-      />
+      <Animated.View
+        style={[
+          styles.sidebar,
+          { transform: [{ translateX: sidebarAnimation }] },
+        ]}
+      >
+        <TouchableOpacity style={styles.closeButton} onPress={toggleSidebar}>
+          <Text style={styles.closeButtonText}>×</Text>
+        </TouchableOpacity>
+
+        <View style={styles.buttonGroup}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+
+          {authenticatedUser?.role === "teacher" && (
+            <>
+              <TouchableOpacity
+                style={styles.configButton}
+                onPress={handleRedirectConfig}
+              >
+                <Text style={styles.buttonText}>Config</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.adminButton}
+                onPress={handleRedirectTeacherAdmin}
+              >
+                <Text style={styles.buttonText}>Gerenciar Professores</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.adminButton}
+                onPress={handleRedirectStudentAdmin}
+              >
+                <Text style={styles.buttonText}>Gerenciar Alunos</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
+      </Animated.View>
+
+      {/* Main Content */}
       <View style={styles.mainContent}>
         <TouchableOpacity style={styles.menuButton} onPress={toggleSidebar}>
           <Text style={styles.menuButtonText}>≡</Text>
@@ -53,7 +123,7 @@ export default function Home() {
         <View style={styles.infoField}>
           <Text style={styles.infoText}>
             {authenticatedUser
-              ?`Bom te ver, ${capitalizeFirstLetter(authenticatedUser.name)}!`
+              ? `Bom te ver, ${capitalizeFirstLetter(authenticatedUser.name)}!`
               : "Bem-vindo!"}
           </Text>
           <Text style={styles.headerText}>Publicações</Text>
@@ -82,26 +152,80 @@ export default function Home() {
           />
         )}
       </View>
-      
+
       {/* Register New Post Button */}
       <TouchableOpacity
         style={styles.RegisterNewPost}
-        onPress={() => navigation.navigate("RegisterPost")} // Navegar para a tela de criar novo post
+        onPress={() => navigation.navigate("RegisterPost")}
       >
         <Text style={styles.RegisterNewPostText}>+</Text>
       </TouchableOpacity>
-      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "row",
   },
-  headerText: {
+  sidebar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    width: 200,
+    backgroundColor: colors.green[100],
+    zIndex: 2,
+    padding: 10,
+    justifyContent: "flex-start",
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+    padding: 5,
+    borderRadius: 4,
+    marginBottom: 10,
+  },
+  closeButtonText: {
+    fontSize: 24,
+    color: "white",
+  },
+  buttonGroup: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  logoutButton: {
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: "80%",
+    alignItems: "center",
+  },
+  configButton: {
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: "80%",
+    alignItems: "center",
+  },
+  adminButton: {
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: "80%",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
     fontSize: 16,
-    color: colors.zinc[100],
-    marginTop: 10,
+    fontWeight: "bold",
+  },
+  logoutText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  adminButtons: {
     alignSelf: "flex-start",
   },
   mainContent: {
@@ -119,20 +243,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "white",
   },
-  infoText: {
-    fontSize: 18,
-    marginBottom: 16,
-    fontWeight: "bold"
-  },
-  postTitle: {
-    fontSize: 16,
-    marginBottom: 8,
-    fontWeight: "bold"
-  },
   infoField: {
     alignItems: "center",
     marginBottom: 10,
-    fontWeight: "bold"
+  },
+  infoText: { fontSize: 18, fontWeight: "bold", color: colors.zinc[100] },
+  headerText: {
+    fontSize: 16,
+    color: colors.zinc[100],
+    marginTop: 10,
+    alignSelf: "flex-start",
   },
   postsList: { marginTop: 16 },
   postItem: {
@@ -141,7 +261,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: colors.zinc[100],
   },
+  postTitle: { fontSize: 16, fontWeight: "bold" },
   postContent: { fontSize: 14, color: colors.zinc[500], marginTop: 5 },
+
   RegisterNewPost: {
     position: "absolute",
     bottom: 20, 
