@@ -41,7 +41,7 @@ export default function AppRoutes() {
               <Stack.Screen name="PostDetails" component={PostDetails} />
               <Stack.Screen name="RegisterPost" component={RegisterPostScreen} />
               <Stack.Screen name="EditUser" component={EditUser} />
-              {/* <Stack.Screen name="EditPost" component={EditPostScreen} /> */}
+              <Stack.Screen name="EditPostScreen" component={EditPostScreen} />
             </Stack.Navigator>
           </Suspense>
         </UsersProvider>

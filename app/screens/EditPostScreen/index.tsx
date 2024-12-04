@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import { RouteProp } from '@react-navigation/native'; // Importa o tipo RouteProp
 import { StackNavigationProp } from '@react-navigation/stack';
 import { colors } from '@/styles/colors';
@@ -37,6 +37,9 @@ const EditPostScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.backButtonText}>Voltar</Text>
+      </TouchableOpacity>
       <Text style={styles.header}>Editar Publicação</Text>
 
       <View style={styles.formGroup}>
@@ -94,6 +97,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
+  },
+  backButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    width: 75,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: colors.green[600],
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   formGroup: {

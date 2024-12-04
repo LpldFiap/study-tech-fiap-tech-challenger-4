@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '@/styles/colors';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation/navigation';
+import { AuthContext } from '@/context/auth';
+import { AuthContextType } from '@/types/user';
 
 type PostDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PostDetails'>;
 type PostDetailsScreenRouteProp = RouteProp<RootStackParamList, 'PostDetails'>;
@@ -15,6 +17,9 @@ interface PostDetailsProps {
 
 const PostDetails = ({ route, navigation }: PostDetailsProps) => {
   const { post } = route.params;
+  const { authenticatedUser } = useContext(
+    AuthContext
+  ) as AuthContextType;
 
   return (
     <View style={styles.container}>
@@ -31,6 +36,16 @@ const PostDetails = ({ route, navigation }: PostDetailsProps) => {
         <Text style={styles.author}>Por: {post.author}</Text>
         <Text style={styles.content}>{post.description}</Text>
       </View>
+
+      {/* Botão de editar */}
+      {authenticatedUser?.role === "teacher" && (
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => navigation.navigate('EditPostScreen', { post })}
+        >
+          <Text style={styles.editButtonText}>Editar</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -81,6 +96,20 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 16,
     lineHeight: 24,
+    textAlign: 'center',
+  },
+  editButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    backgroundColor: colors.green[600],
+    alignSelf: 'center',
+  },
+  editButtonText: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });

@@ -11,4 +11,5 @@ export type RootStackParamList = {
   EditPost: undefined;
   EditUser: undefined;
   Admin: undefined;
+  EditPostScreen: { post: TPost };
 };

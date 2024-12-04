@@ -37,8 +37,8 @@ const RegisterPostScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>Cadastrar Publicação</Text>
       <BackButton />
+      <Text style={styles.header}>Cadastrar Publicação</Text>
       <View style={styles.formGroup}>
         <Text style={styles.label}>Título</Text>
         <TextInput
