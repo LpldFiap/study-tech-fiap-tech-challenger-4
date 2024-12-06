@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
-import { RouteProp } from '@react-navigation/native'; // Importa o tipo RouteProp
+import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { colors } from '@/styles/colors';
+import { updatePost } from '@/services/post.services';
+import { AuthContext } from '@/context/auth';
+import { AuthContextType } from '@/types/user';
 
-// Define os tipos para as rotas
+// Define the types for routes
 type RootStackParamList = {
-  EditPostScreen: { post: { title: string; content: string; creatorName: string; creationDate: string } };
+  EditPostScreen: { post: { title: string; description: string; author: string; created_at: string; _id: string } };
 };
 
-// Define os tipos do route e navigation
+// Define the types for route and navigation
 type EditPostRouteProp = RouteProp<RootStackParamList, 'EditPostScreen'>;
 
 type Props = {
@@ -18,21 +21,39 @@ type Props = {
 };
 
 const EditPostScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { post } = route.params; // Recebe o post como parâmetro
+  const { post } = route.params;
+  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
 
   const [title, setTitle] = useState(post?.title || '');
-  const [content, setContent] = useState(post?.content || '');
-  const [creatorName] = useState(post?.creatorName || '');
-  const [creationDate] = useState(post?.creationDate || '');
+  const [content, setContent] = useState(post?.description || '');
+  const [creatorName] = useState(post?.author || '');
+  const [creationDate] = useState(post?.created_at || '');
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title || !content) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos');
       return;
     }
 
-    Alert.alert('Sucesso', 'Publicação atualizada com sucesso!');
-    navigation.goBack();
+    try {
+      // Call the updatePost API
+      const updatedPost = await updatePost({
+        post: {
+          _id: post._id,
+          title,
+          description: content,
+          author: creatorName,
+        },
+        user_id: authenticatedUser?.id || '',
+      });
+
+      Alert.alert('Sucesso', 'Publicação atualizada com sucesso!');
+      console.log('Updated Post:', updatedPost);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Erro ao atualizar publicação:', error);
+      Alert.alert('Erro', 'Não foi possível atualizar a publicação');
+    }
   };
 
   return (
@@ -129,7 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textArea: {
-    height: 100, 
+    height: 100,
     textAlignVertical: 'top',
   },
 });

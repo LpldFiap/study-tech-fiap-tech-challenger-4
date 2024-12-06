@@ -1,22 +1,23 @@
-import React, { useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
 import { colors } from '@/styles/colors';
 import BackButton from '@/components/BackButton';
 import { AuthContext } from '@/context/auth';
 import { AuthContextType } from '@/types/user';
+import { TPost } from '@/types/posts';
+import { createPost } from '@/services/post.services';
 
 const RegisterPostScreen = () => {
-  // Estados do formulário
+  // Form state
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');  
-  const [creationDate] = useState(new Date().toLocaleString());  
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
+  const [created_at] = useState(new Date().toISOString());
 
   const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
 
-  function capitalizeFirstLetter(string: any) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  const capitalizeFirstLetter = (string: string) =>
+    string.charAt(0).toUpperCase() + string.slice(1);
 
   useEffect(() => {
     if (authenticatedUser?.name) {
@@ -24,17 +25,36 @@ const RegisterPostScreen = () => {
     }
   }, [authenticatedUser]);
 
-  const handleSubmit = () => {
-    if (!title || !content) {
+  const handleSubmit = async () => {
+    if (!title || !description) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos');
       return;
     }
-
-    Alert.alert('Sucesso', 'Publicação Criado!');
-    setTitle('');
-    setContent('');
+  
+    try {
+      const newPost: TPost = {
+        title,
+        description,
+        author,
+        created_at,
+      };
+  
+      console.log('Payload being sent:', newPost);
+  
+      await createPost({
+        post: newPost,
+        user_id: authenticatedUser?.id || '',
+      });
+  
+      Alert.alert('Sucesso', 'Publicação criada com sucesso!');
+      setTitle('');
+      setDescription('');
+    } catch (error) {
+      console.error('Error creating post:', error);
+      Alert.alert('Erro', 'Falha ao criar a publicação. Tente novamente mais tarde.');
+    }
   };
-
+  
   return (
     <ScrollView style={styles.container}>
       <BackButton />
@@ -43,21 +63,21 @@ const RegisterPostScreen = () => {
         <Text style={styles.label}>Título</Text>
         <TextInput
           style={styles.input}
-          placeholder="Digite o Título"
+          placeholder="Digite o título"
           value={title}
           onChangeText={setTitle}
         />
       </View>
 
       <View style={styles.formGroup}>
-        <Text style={styles.label}>Conteúdo</Text>
+        <Text style={styles.label}>Descrição</Text>
         <TextInput
           style={[styles.input, styles.textArea]}
-          placeholder="Digite o conteúdo"
+          placeholder="Digite a descrição"
           multiline
           numberOfLines={6}
-          value={content}
-          onChangeText={setContent}
+          value={description}
+          onChangeText={setDescription}
         />
       </View>
 
@@ -65,7 +85,7 @@ const RegisterPostScreen = () => {
         <Text style={styles.label}>Data de Criação</Text>
         <TextInput
           style={styles.input}
-          value={creationDate}
+          value={new Date(created_at).toLocaleString()}
           editable={false}
         />
       </View>
@@ -79,7 +99,11 @@ const RegisterPostScreen = () => {
         />
       </View>
 
-      <Button title="Criar Nova Publicação" color= {colors.green[600]} onPress={handleSubmit} />
+      <Button
+        title="Criar Nova Publicação"
+        color={colors.green[600]}
+        onPress={handleSubmit}
+      />
     </ScrollView>
   );
 };
@@ -113,8 +137,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textArea: {
-    height: 100,  // Dá altura extra ao campo de conteúdo
-    textAlignVertical: 'top',  // Para que o texto comece no topo
+    height: 100,
+    textAlignVertical: 'top',
   },
 });
 
