@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { colors } from '@/styles/colors';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation/navigation';
 import { AuthContext } from '@/context/auth';
 import { AuthContextType } from '@/types/user';
+import { deletePost } from '@/services/post.services'; 
 
 type PostDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PostDetails'>;
 type PostDetailsScreenRouteProp = RouteProp<RootStackParamList, 'PostDetails'>;
@@ -20,7 +21,25 @@ const PostDetails = ({ route, navigation }: PostDetailsProps) => {
   const { authenticatedUser } = useContext(
     AuthContext
   ) as AuthContextType;
-
+  
+  const handleDelete = async () => {
+    console.log(`delete post:${JSON.stringify(post)}`);
+    
+    try {
+      if(!post._id || !authenticatedUser?._id){
+        Alert.alert('Error', 'Informações insuficientes para deletar o post.');
+      }else{
+      
+        const response = await deletePost({ id: post._id, user_id: authenticatedUser._id });
+       
+        Alert.alert('Sucesso', 'Publicação deletada com sucesso!');
+       navigation.navigate('Home');
+      }
+    } catch (error) {
+      console.error('Erro ao deletar publicação:', error);
+      Alert.alert('Erro', 'Não foi possível deletar a publicação.');
+    }
+  };
   return (
     <View style={styles.container}>
       {/* Botão de voltar */}
@@ -46,6 +65,12 @@ const PostDetails = ({ route, navigation }: PostDetailsProps) => {
           <Text style={styles.editButtonText}>Editar</Text>
         </TouchableOpacity>
       )}
+       {/* Botão de deletar */}
+       {authenticatedUser?.role === 'teacher' && (
+        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+          <Text style={styles.deleteButtonText}>Deletar</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -62,6 +87,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
     marginBottom: 20,
+    marginTop: 30,
     width: 75,
   },
   backButtonText: {
@@ -107,6 +133,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   editButtonText: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  deleteButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    backgroundColor: colors.red[100],
+    alignSelf: 'center',
+  },
+  deleteButtonText: {
     fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
