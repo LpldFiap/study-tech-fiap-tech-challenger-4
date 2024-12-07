@@ -32,53 +32,48 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 ### Página de Login
 - Permitir que o usuário se autentique
 - Permitir que um usuário se cadastre
-<!-- ![Imagem da Página Principal](./assets/images/login.png) -->
-<img src="./assets/images/login.png" alt="Imagem da Página Principal" width="300" />
+<img src="./assets/images/login.png" alt="Imagem da Página Principal" width="200" />
 
 ### Página de Cadastro
 - Página de Cadastro de usuário
-![Imagem da Página Principal](./assets/images/sign_in.png)
+<img src="./assets/images/sign_in.png" alt="Imagem da Página de Cadastro" width="200" />
 
-<!-- ### Página Principal (Lista de Posts)
-- Exibir uma lista de todos os posts disponíveis.
-- Exibir uma lista de todas as postagens, com opções para editar e excluir cada post.
-![Imagem da Página Principal](./assets/images/home_admin.png) -->
 ### Página de visualização de Posts como aluno
 - Exibir uma lista contendo todos os posts.
-![Imagem da Página de Leitura de Post](./assets/images/home_student.png)
+<img src="./assets/images/home_student.png" alt="Imagem da Página de Visualização de Posts como Aluno" width="200" />
 
 ### Página de Leitura de Post como Aluno
 - Exibir o conteúdo completo de um post selecionado.
-![Imagem da Página de Leitura de Post](./assets/images/details_post.png)
+<img src="./assets/images/details_post.png" alt="Imagem da Página de Leitura de Post como Aluno" width="200" />
 
 ### Página de Leitura de Post como Professor
 - Exibir o conteúdo completo de um post selecionado.
-- Botão para editar e exlcuir o post.
-![Imagem da Página de Leitura de Post](./assets/images/details_post_teacher.png)
+- Botão para editar e excluir o post.
+<img src="./assets/images/details_post_teacher.png" alt="Imagem da Página de Leitura de Post como Professor" width="200" />
 
 ### Página de Criação de Postagens
 - Formulário para que docentes possam criar postagens.
 - Campos para título, conteúdo e autor.
 - Botão para enviar o post ao servidor.
-![Imagem da Página de Criação de Postagens](./assets/images/create_post.png)
+<img src="./assets/images/create_post.png" alt="Imagem da Página de Criação de Postagens" width="200" />
 
 ### Página de Edição de Postagens
 - Formulário para que os(as) professores(as) possam editar postagens existentes.
 - Carregar os dados atuais do post para edição.
 - Botão para salvar as alterações.
-![Imagem da Página de Edição de Postagens](./assets/images/edit_post.png)
+<img src="./assets/images/edit_post.png" alt="Imagem da Página de Edição de Postagens" width="200" />
 
 ### Página Administrativa de Alunos
 - Permitir que o admin altere o perfil ou exclua os alunos
-![Imagem da Página Administrativa](./assets/images/admin_student.png)
+<img src="./assets/images/admin_student.png" alt="Imagem da Página Administrativa de Alunos" width="200" />
 
 ### Página Administrativa de Professores
 - Permitir que o admin altere o perfil ou exclua os professores
-![Imagem da Página Administrativa](./assets/images/admin_teacher.png)
+<img src="./assets/images/admin_teacher.png" alt="Imagem da Página Administrativa de Professores" width="200" />
 
 ### Página de Configuração de Usuário
 - Permitir que usuários alterem as configurações de sua conta
-![Imagem da Página Administrativa](./assets/images/config.png)
+<img src="./assets/images/config.png" alt="Imagem da Página de Configuração de Usuário" width="200" />
 
 
 ## API consumida neste projeto
@@ -90,16 +85,3 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 
 ```bash
 git clone https://github.com/LpldFiap/StudyTech.git
-```
-2. Siga as instruções para rodar o backend e garantir que ele esteja ativo.
-
-3. Clone este repositório e execute o comando abaixo:
-
-```bash
-npm run dev
-```
-
-## Apresentação
-
-![Vídeo apresentação desse Projeto](./assets/images/apresentacao.mp4)
-- Caminho > *./assets/images/apresentacao.zip*
