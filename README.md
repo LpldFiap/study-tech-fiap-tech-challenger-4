@@ -29,40 +29,59 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 
 ## Requisitos Funcionais
 
-### Página Principal (Lista de Posts)
+### Página de Login
+- Permitir que o usuário se autentique
+- Permitir que um usuário se cadastre
+![Imagem da Página Principal](app/assets/images/login.png)
+
+### Página de Cadastro
+- Página de Cadastro de usuário
+![Imagem da Página Principal](app/assets/images/sign_in.png)
+
+<!-- ### Página Principal (Lista de Posts)
 - Exibir uma lista de todos os posts disponíveis.
 - Exibir uma lista de todas as postagens, com opções para editar e excluir cada post.
-![Imagem da Página Principal](src/assets/home_admin.png)
-
-### Página de Leitura de Post
-- Exibir o conteúdo completo de um post selecionado.
-![Imagem da Página de Leitura de Post](src/assets/detalhes_post_aluno.png)
-
+![Imagem da Página Principal](app/assets/images/home_admin.png) -->
 ### Página de visualização de Posts como aluno
 - Exibir uma lista contendo todos os posts.
-![Imagem da Página de Leitura de Post](src/assets/detalhes_post_aluno.png)
+![Imagem da Página de Leitura de Post](app/assets/images/home_student.png)
+
+### Página de Leitura de Post como Aluno
+- Exibir o conteúdo completo de um post selecionado.
+![Imagem da Página de Leitura de Post](app/assets/images/details_post.png)
+
+### Página de Leitura de Post como Professor
+- Exibir o conteúdo completo de um post selecionado.
+- Botão para editar e exlcuir o post.
+![Imagem da Página de Leitura de Post](app/assets/images/details_post_teacher.png)
 
 ### Página de Criação de Postagens
 - Formulário para que docentes possam criar postagens.
 - Campos para título, conteúdo e autor.
 - Botão para enviar o post ao servidor.
-![Imagem da Página de Criação de Postagens](src/assets/criacao_post.png)
+![Imagem da Página de Criação de Postagens](app/assets/images/create_post.png)
 
 ### Página de Edição de Postagens
 - Formulário para que os(as) professores(as) possam editar postagens existentes.
 - Carregar os dados atuais do post para edição.
 - Botão para salvar as alterações.
-![Imagem da Página de Edição de Postagens](src/assets/editar_post.png)
+![Imagem da Página de Edição de Postagens](app/assets/images/edit_post.png)
 
-### Página Administrativa
-- Permitir que o admin altere o tipo de permissão dos usuários
-![Imagem da Página Administrativa](src/assets/admin.png)
+### Página Administrativa de Alunos
+- Permitir que o admin altere o perfil ou exclua os alunos
+![Imagem da Página Administrativa](app/assets/images/admin_student.png)
 
-### Autenticação e Autorização
-- Implementar login para professores.
-- Garantir que apenas usuários autenticados possam acessar as páginas de criação, edição e administração de postagens.
-![Imagem da Autenticação](src/assets/login.png)
+### Página Administrativa de Professores
+- Permitir que o admin altere o perfil ou exclua os professores
+![Imagem da Página Administrativa](app/assets/images/admin_teacher.png)
 
+### Página de Configuração de Usuário
+- Permitir que usuários alterem as configurações de sua conta
+![Imagem da Página Administrativa](app/assets/images/config.png)
+
+
+## API consumida neste projeto
+- Para facilitar as consultas, hospedamos a API na Vercel
 [Repositório API Fase 2](https://github.com/LpldFiap/StudyTech.git)
 
 ## Como Executar o Projeto
@@ -81,5 +100,5 @@ npm run dev
 
 ## Apresentação
 
-![Vídeo apresentação desse Projeto](src/assets/apresentacao.mp4)
-- Caminho > *src/assets/apresentacao.zip*
+![Vídeo apresentação desse Projeto](app/assets/images/apresentacao.mp4)
+- Caminho > *app/assets/images/apresentacao.zip*
