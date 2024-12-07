@@ -18,14 +18,6 @@ import { colors } from "@/styles/colors";
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
-// interface Post {
-//   _id: string;
-//   title: string;
-//   content: string;
-//   author: string;
-//   description: string;
-// }
-
 export default function Home() {
   const { authenticatedUser, logoutUser } = useContext(
     AuthContext
@@ -51,8 +43,8 @@ export default function Home() {
 
   const handleLogout = async () => {
     try {
-      // await logoutUser();
-      navigation.navigate("Login");
+       await logoutUser("Login");
+       navigation.navigate("Login");
     } catch (error) {
       console.error("Erro ao deslogar:", error);
     }
@@ -69,7 +61,6 @@ export default function Home() {
   const handleRedirectStudentAdmin = () => {
     navigation.navigate("StudentAdmin");
   };
-
   return (
     <View style={styles.container}>
       
@@ -90,7 +81,7 @@ export default function Home() {
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
 
-          {authenticatedUser?.role === "teacher" && (
+          {authenticatedUser?.role === "admin" && (
             <>
               <TouchableOpacity
                 style={styles.configButton}
@@ -169,6 +160,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
+    backgroundColor: colors.zinc[100]
   },
   sidebar: {
     position: "absolute",
@@ -176,7 +168,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     width: 200,
-    backgroundColor: colors.green[100],
+    backgroundColor: colors.green[700],
     zIndex: 2,
     padding: 10,
     justifyContent: "flex-start",
@@ -232,28 +224,28 @@ const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     padding: 16,
-    backgroundColor: colors.green[100],
+    backgroundColor: colors.zinc[100],
   },
   menuButton: {
     marginTop: 30,
-    backgroundColor: colors.green[100],
+    backgroundColor: colors.zinc[100],
     padding: 8,
     borderRadius: 2,
     alignSelf: "flex-start",
   },
   menuButtonText: {
     fontSize: 24,
-    color: "white",
+    color: colors.zinc[500],
   },
   infoField: {
     alignItems: "center",
     marginBottom: 10,
   },
-  infoText: { fontSize: 18, fontWeight: "bold", color: colors.zinc[100] },
+  infoText: { fontSize: 18, fontWeight: "bold", color: colors.green[100] },
   textAuthor: {fontSize: 12, color: colors.zinc[400]},
   headerText: {
     fontSize: 16,
-    color: colors.zinc[100],
+    color: colors.zinc[500],
     marginTop: 10,
     alignSelf: "flex-start",
   },
@@ -262,9 +254,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: colors.zinc[100],
+    backgroundColor: colors.zinc[100], 
+    borderWidth: 1, 
+    borderColor: colors.green[700],
+    // borderStyle: '',
   },
-  postTitle: { fontSize: 16, fontWeight: "bold" },
+  postTitle: { fontSize: 16, fontWeight: "bold", color: colors.zinc[800] },
   postContent: { fontSize: 14, color: colors.zinc[500], marginTop: 5 },
 
   RegisterNewPost: {
@@ -274,7 +269,7 @@ const styles = StyleSheet.create({
     width: 60, 
     height: 60, 
     borderRadius: 30, 
-    backgroundColor: colors.green[300],
+    backgroundColor: colors.green[700],
     justifyContent: "center",
     alignItems: "center",
     elevation: 5, 

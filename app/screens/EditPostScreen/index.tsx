@@ -6,7 +6,7 @@ import { colors } from '@/styles/colors';
 import { updatePost } from '@/services/post.services';
 import { AuthContext } from '@/context/auth';
 import { AuthContextType } from '@/types/user';
-
+import { useRoute, useNavigation } from "@react-navigation/native";
 // Define the types for routes
 type RootStackParamList = {
   EditPostScreen: { post: { title: string; description: string; author: string; created_at: string; _id: string } };
@@ -20,8 +20,10 @@ type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'EditPostScreen'>;
 };
 
-const EditPostScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { post } = route.params;
+export default function EditPostScreen() {
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { post }: any = route.params;
   const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
 
   const [title, setTitle] = useState(post?.title || '');
@@ -155,4 +157,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditPostScreen;
