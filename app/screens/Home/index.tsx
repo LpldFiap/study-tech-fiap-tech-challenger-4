@@ -146,6 +146,7 @@ export default function Home() {
                 <Text style={styles.postContent}>
                   {item.description.slice(0, 100)}...
                 </Text>
+                <Text style={styles.textAuthor}>Por: {item.author}</Text>
               </TouchableOpacity>
             )}
             contentContainerStyle={styles.postsList}
@@ -234,6 +235,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green[100],
   },
   menuButton: {
+    marginTop: 30,
     backgroundColor: colors.green[100],
     padding: 8,
     borderRadius: 2,
@@ -248,6 +250,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   infoText: { fontSize: 18, fontWeight: "bold", color: colors.zinc[100] },
+  textAuthor: {fontSize: 12, color: colors.zinc[400]},
   headerText: {
     fontSize: 16,
     color: colors.zinc[100],

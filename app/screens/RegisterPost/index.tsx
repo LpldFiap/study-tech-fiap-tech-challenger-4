@@ -40,15 +40,19 @@ const RegisterPostScreen = () => {
       };
   
       console.log('Payload being sent:', newPost);
+      console.log('authenticatedUser:', JSON.stringify(authenticatedUser));
   
-      await createPost({
+      const response = await createPost({
         post: newPost,
-        user_id: authenticatedUser?.id || '',
+        user_id: authenticatedUser?._id || '',
       });
-  
-      Alert.alert('Sucesso', 'Publicação criada com sucesso!');
-      setTitle('');
-      setDescription('');
+      console.log(`Register post: response: ${JSON.stringify(response)}`);
+      
+      if(response) {
+        Alert.alert('Sucesso', 'Publicação criada com sucesso!');
+        setTitle('');
+        setDescription('');
+      }
     } catch (error) {
       console.error('Error creating post:', error);
       Alert.alert('Erro', 'Falha ao criar a publicação. Tente novamente mais tarde.');
@@ -110,6 +114,7 @@ const RegisterPostScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 30,
     flex: 1,
     padding: 16,
     backgroundColor: colors.zinc[100],

@@ -27,8 +27,7 @@ const EditPostScreen: React.FC<Props> = ({ route, navigation }) => {
   const [title, setTitle] = useState(post?.title || '');
   const [content, setContent] = useState(post?.description || '');
   const [creatorName] = useState(post?.author || '');
-  const [creationDate] = useState(post?.created_at || '');
-
+  const [modifyDate] = useState(new Date().toISOString());
   const handleSave = async () => {
     if (!title || !content) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos');
@@ -40,11 +39,11 @@ const EditPostScreen: React.FC<Props> = ({ route, navigation }) => {
       const updatedPost = await updatePost({
         post: {
           _id: post._id,
-          title,
+          title: title,
           description: content,
           author: creatorName,
         },
-        user_id: authenticatedUser?.id || '',
+        user_id: authenticatedUser?._id || '',
       });
 
       Alert.alert('Sucesso', 'Publicação atualizada com sucesso!');
@@ -86,10 +85,10 @@ const EditPostScreen: React.FC<Props> = ({ route, navigation }) => {
       </View>
 
       <View style={styles.formGroup}>
-        <Text style={styles.label}>Data de Criação</Text>
+        <Text style={styles.label}>Data de Modificação</Text>
         <TextInput
           style={styles.input}
-          value={creationDate}
+          value={new Date(modifyDate).toLocaleString()}
           editable={false}
         />
       </View>
@@ -125,6 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
     marginBottom: 20,
+    marginTop: 30,
     width: 75,
   },
   backButtonText: {
