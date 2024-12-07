@@ -32,7 +32,8 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 ### Página de Login
 - Permitir que o usuário se autentique
 - Permitir que um usuário se cadastre
-![Imagem da Página Principal](./assets/images/login.png)
+<!-- ![Imagem da Página Principal](./assets/images/login.png) -->
+<img src="./assets/images/login.png" alt="Imagem da Página Principal" width="300" />
 
 ### Página de Cadastro
 - Página de Cadastro de usuário
