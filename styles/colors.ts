@@ -1,6 +1,6 @@
 export const colors = {
     zinc: {
-      100: "#F4F4F5",
+      100: "#F4F4F4",
       200: "#E4E4E7",
       300: "#D4D4D8",
       400: "#A1A1AA",
@@ -25,6 +25,16 @@ export const colors = {
     },
     red: {
       100: "#8B0000",
+    },
+    blue: {
+      100: "#0000FF",
+    },
+    purple: {
+      100: "#723172",
+    },
+    orange: {
+      100: "#FF4500",
     }
+
   }
   

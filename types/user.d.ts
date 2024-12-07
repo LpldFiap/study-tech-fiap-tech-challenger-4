@@ -12,7 +12,7 @@ export type AuthContextType = {
   authenticateUser: ({ email, password }: { email: string; password: string }) => Promise<User | null>;
   logoutUser: (navigation: any) => Promise<void>;
 };
-export type TUserRole = 'student' | 'teacher';
+export type TUserRole = 'student' | 'teacher' | 'admin';
 export type TUser = {
   name: string;
   email: string;

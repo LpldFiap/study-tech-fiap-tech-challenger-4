@@ -32,10 +32,11 @@ export default function StudentAdmin() {
   const { logoutUser } = useContext(
     AuthContext
   ) as AuthContextType;
+  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
   const [role, setRole] = useState<TUserRole | null>(null);
   const { users, loading, fetchUsers } = useUsers();
   const navigation = useNavigation<NavigationProp>();
-
+  const allUsers = users;
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarAnimation = useState(new Animated.Value(-200))[0];
 
@@ -87,9 +88,11 @@ export default function StudentAdmin() {
   useEffect(() => {
     const fetchRole = async () => {
       const userRole = await getUserRole();
-      if (userRole) {
-        setRole(userRole);
-      }
+      console.log(`Student Admin: userrole: ${authenticatedUser?.role}`);
+      
+      // if (userRole) {
+      //   setRole(userRole);
+      // }
     };
     fetchRole();
   }, []);
@@ -99,15 +102,19 @@ export default function StudentAdmin() {
       fetchUsers();
     }, [fetchUsers])
   );
-
-  if (role !== "teacher") {
+  if (authenticatedUser?.role !== "admin") {
+    console.log(`entrei aqui`);
+      setTimeout(() => {
+        navigation.navigate("Home");
+      }, 3000);
     return (
       <View style={styles.centeredView}>
         <Text style={styles.accessDeniedText}>
-          Acesso negado. Apenas professores podem acessar esta página.
+          Acesso negado. Apenas administradores podem acessar esta página.
         </Text>
-      </View>
-    );
+      </View>  
+  );
+    
   }
 
   if (loading) {
@@ -119,7 +126,6 @@ export default function StudentAdmin() {
   }
 
   const studentUsers = users.filter((user) => user.role === "student");
-
   const renderUser = ({ item }: { item: any }) => (
     <View style={styles.userRow}>
       <Text style={styles.userInfo}>{item.name}</Text>
@@ -293,6 +299,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: "bold",
+    color: colors.green[100],
     textAlign: "center",
     marginBottom: 16,
   },
@@ -320,27 +327,37 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 4,
     borderRadius: 4,
-    paddingVertical: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     justifyContent: "center",
     alignItems: "center",
   },
   editButton: {
-    backgroundColor: "#723172",
+    borderWidth: 2, 
+    borderColor: colors.purple[100],
+    backgroundColor: colors.zinc[100],
   },
   teacherButton: {
-    backgroundColor: "#1E90FF",
+    borderWidth: 2, 
+    borderColor: colors.blue[100],
+    backgroundColor: colors.zinc[200],
   },
   studentButton: {
-    backgroundColor: "#32CD32",
+    borderWidth: 2, 
+    borderColor: colors.green[100],
+    backgroundColor: colors.zinc[100],
   },
   deleteButton: {
-    backgroundColor: "#FF4500",
+    borderWidth: 2, 
+    borderColor: colors.red[100], 
+    backgroundColor: colors.zinc[100],
   },
   disabledButton: {
     opacity: 0.5,
   },
   buttonText: {
-    color: "#fff",
+    fontSize: 12,
+    color: colors.zinc[800],
     fontWeight: "bold",
   },
 });

@@ -36,7 +36,7 @@ export default function TeacherAdmin() {
   const [role, setRole] = useState<TUserRole | null>(null);
   const { users, loading, fetchUsers } = useUsers();
   const navigation = useNavigation<NavigationProp>();
-
+  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarAnimation = useState(new Animated.Value(-200))[0];
 
@@ -94,18 +94,23 @@ export default function TeacherAdmin() {
 
   const handleLogout = async () => {
     try {
-      //  await logoutUser("Login");
+      await logoutUser("Login");
       navigation.navigate("Login");
     } catch (error) {
       console.error("Erro ao deslogar:", error);
     }
   };
 
-  if (role !== "teacher") {
+  if (authenticatedUser?.role !== "admin") {
+console.log(`TeacherAdmin, authenticatedUser?.role: ${authenticatedUser?.role}`);
+
+    setTimeout(() => {
+      navigation.navigate("Home");
+    }, 3000);
     return (
       <View style={styles.centeredView}>
         <Text style={styles.accessDeniedText}>
-          Acesso negado. Apenas professores podem acessar esta página.
+          Acesso negado. Apenas Administradores podem acessar esta página.
         </Text>
       </View>
     );
@@ -153,7 +158,7 @@ export default function TeacherAdmin() {
           ]}
           disabled={item.role === "student"}
         >
-          <Text style={styles.buttonText}>Tornar Aluno</Text>
+          <Text style={styles.buttonText}>Tornar{"\n"}Aluno</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
@@ -295,6 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
+    color: colors.green[100],
     marginBottom: 16,
   },
   listContainer: {
@@ -321,27 +327,37 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 4,
     borderRadius: 4,
-    paddingVertical: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     justifyContent: "center",
     alignItems: "center",
   },
   editButton: {
-    backgroundColor: "#723172",
+    borderWidth: 2, 
+    borderColor: colors.purple[100],
+    backgroundColor: colors.zinc[100],
   },
   teacherButton: {
-    backgroundColor: "#1E90FF",
+    borderWidth: 2, 
+    borderColor: colors.blue[100],
+    backgroundColor: colors.zinc[200],
   },
   studentButton: {
-    backgroundColor: "#32CD32",
+    borderWidth: 2, 
+    borderColor: colors.green[100],
+    backgroundColor: colors.zinc[100],
   },
   deleteButton: {
-    backgroundColor: "#FF4500",
+    borderWidth: 2, 
+    borderColor: colors.red[100], 
+    backgroundColor: colors.zinc[100],
   },
   disabledButton: {
     opacity: 0.5,
   },
   buttonText: {
-    color: "#fff",
+    fontSize: 12,
+    color: colors.zinc[800],
     fontWeight: "bold",
   },
 });
