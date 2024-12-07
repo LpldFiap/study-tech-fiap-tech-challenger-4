@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation/navigation';
 import { AuthContext } from '@/context/auth';
 import { AuthContextType } from '@/types/user';
-import { deletePost } from '@/services/post.services'; 
+import { deletePost } from '@/services/post.services';
 
 type PostDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PostDetails'>;
 type PostDetailsScreenRouteProp = RouteProp<RootStackParamList, 'PostDetails'>;
@@ -18,28 +18,24 @@ interface PostDetailsProps {
 
 const PostDetails = ({ route, navigation }: PostDetailsProps) => {
   const { post } = route.params;
-  const { authenticatedUser } = useContext(
-    AuthContext
-  ) as AuthContextType;
-  
+  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
+
   const handleDelete = async () => {
-    console.log(`delete post:${JSON.stringify(post)}`);
-    
     try {
-      if(!post._id || !authenticatedUser?._id){
-        Alert.alert('Error', 'Informações insuficientes para deletar o post.');
-      }else{
-      
-        const response = await deletePost({ id: post._id, user_id: authenticatedUser._id });
-       
-        Alert.alert('Sucesso', 'Publicação deletada com sucesso!');
-       navigation.navigate('Home');
+      if (!post._id || !authenticatedUser?._id) {
+        Alert.alert('Erro', 'Informações insuficientes para deletar o post.');
+        return;
       }
+
+      await deletePost({ id: post._id, user_id: authenticatedUser._id });
+      Alert.alert('Sucesso', 'Publicação deletada com sucesso!');
+      navigation.navigate('Home');
     } catch (error) {
       console.error('Erro ao deletar publicação:', error);
       Alert.alert('Erro', 'Não foi possível deletar a publicação.');
     }
   };
+
   return (
     <View style={styles.container}>
       {/* Botão de voltar */}
@@ -56,20 +52,18 @@ const PostDetails = ({ route, navigation }: PostDetailsProps) => {
         <Text style={styles.content}>{post.description}</Text>
       </View>
 
-      {/* Botão de editar */}
-      {authenticatedUser?.role === "teacher" && (
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={() => navigation.navigate('EditPostScreen', { post })}
-        >
-          <Text style={styles.editButtonText}>Editar</Text>
-        </TouchableOpacity>
-      )}
-       {/* Botão de deletar */}
-       {authenticatedUser?.role === 'teacher' && (
-        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-          <Text style={styles.deleteButtonText}>Deletar</Text>
-        </TouchableOpacity>
+      {authenticatedUser?.role === 'teacher' && (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => navigation.navigate('EditPostScreen', { post })}
+          >
+            <Text style={styles.editButtonText}>Editar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+            <Text style={styles.deleteButtonText}>Deletar</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -89,6 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 30,
     width: 75,
+    backgroundColor: colors.zinc[100],
   },
   backButtonText: {
     fontSize: 16,
@@ -101,12 +96,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
     textAlign: 'center',
-    alignSelf: 'center', 
+    alignSelf: 'center',
   },
   ContainerContent: {
     padding: 16,
     borderRadius: 8,
-    backgroundColor: colors.zinc[300],
+    backgroundColor: colors.zinc[200],
     alignItems: 'center',
     marginTop: 10,
     shadowColor: '#000',
@@ -124,24 +119,31 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
   editButton: {
     marginTop: 20,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     borderRadius: 5,
-    backgroundColor: colors.green[600],
+    borderWidth: 2,
+    borderColor: colors.green[600],
+    backgroundColor: colors.zinc[100],
     alignSelf: 'center',
   },
   editButtonText: {
     fontSize: 16,
-    color: 'white',
+    color: colors.zinc[800],
     fontWeight: 'bold',
     textAlign: 'center',
   },
   deleteButton: {
     marginTop: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
     borderRadius: 5,
     backgroundColor: colors.red[100],
     alignSelf: 'center',

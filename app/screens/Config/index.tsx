@@ -1,26 +1,25 @@
 import { getUser, updateUser } from '@/services/user.service';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, ActivityIndicator } from 'react-native';
 import BackButton from '@/components/BackButton';
+import { AuthContext } from '@/context/auth';
+import { AuthContextType } from '@/types/user';
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "@/app/navigation/navigation";
+import { colors } from '@/styles/colors';
+type HomeNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 export default function Config() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const navigation = useNavigation<HomeNavigationProp>();
   const [newPassword, setNewPassword] = useState('');
+  const { authenticatedUser } = useContext(AuthContext) as AuthContextType;
+  const [name, setName] = useState(authenticatedUser?.name);
+  const [email, setEmail] = useState(authenticatedUser?.email);
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  useEffect(() => {
-    // Fetch user data on mount
-    const fetchUserData = async () => {
-      const user = await getUser();
-      if (user) {
-        setName(user.name);
-        setEmail(user.email);
-      }
-    };
-    fetchUserData();
-  }, []);
+
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   const handleSubmit = async () => {
     if (!name || !email || !newPassword || !confirmNewPassword) {
@@ -33,17 +32,17 @@ export default function Config() {
     }
     setIsLoading(true);
     try {
-      const user = await getUser();
-      if (user) {
-        if (user._id) {
+      if (authenticatedUser?._id) {
+        
           await updateUser({
-            id: user._id,
-            userData: { name, email, password: newPassword, role: user.role },
+            id: authenticatedUser?._id,
+            userData: { name, email, password: newPassword, role: authenticatedUser.role },
           });
-        } else {
-          throw new Error('User ID is undefined');
-        }
+        
         Alert.alert('Sucesso', 'Perfil atualizado com sucesso');
+        navigation.navigate("Home");
+      } else {
+        throw new Error('User ID is undefined');
       }
     } catch (err) {
       console.error('Erro ao atualizar perfil', err);
@@ -56,7 +55,7 @@ export default function Config() {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={colors.green[100]} />
       </View>
     );
   }
@@ -104,7 +103,7 @@ export default function Config() {
           secureTextEntry
         />
       </View>
-      <Button title="Atualizar Perfil" onPress={handleSubmit} color="#1E90FF" />
+      <Button title="Atualizar Perfil" onPress={handleSubmit} color={colors.green[100]} />
     </View>
   );
 }

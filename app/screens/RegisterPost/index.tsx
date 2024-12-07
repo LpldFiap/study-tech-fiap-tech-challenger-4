@@ -62,7 +62,7 @@ const RegisterPostScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <BackButton />
-      <Text style={styles.header}>Cadastrar Publicação</Text>
+      <Text style={styles.header}>Criar Publicação</Text>
       <View style={styles.formGroup}>
         <Text style={styles.label}>Título</Text>
         <TextInput
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: colors.zinc[800],
   },
   formGroup: {
     marginBottom: 16,
