@@ -43,8 +43,8 @@ export default function Home() {
 
   const handleLogout = async () => {
     try {
-       await logoutUser("Login");
-       navigation.navigate("Login");
+      await logoutUser("Login");
+      navigation.navigate("Login");
     } catch (error) {
       console.error("Erro ao deslogar:", error);
     }
@@ -63,8 +63,6 @@ export default function Home() {
   };
   return (
     <View style={styles.container}>
-      
-      
       {/* Sidebar */}
       <Animated.View
         style={[
@@ -80,15 +78,14 @@ export default function Home() {
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
-
-          {authenticatedUser?.role === "admin" && (
-            <>
-              <TouchableOpacity
+          <TouchableOpacity
                 style={styles.configButton}
                 onPress={handleRedirectConfig}
               >
                 <Text style={styles.buttonText}>Config</Text>
               </TouchableOpacity>
+          {authenticatedUser?.role === "admin" && (
+            <>
               <TouchableOpacity
                 style={styles.adminButton}
                 onPress={handleRedirectTeacherAdmin}
@@ -145,13 +142,16 @@ export default function Home() {
         )}
       </View>
 
-      {/* Register New Post Button */}
-      <TouchableOpacity
-        style={styles.RegisterNewPost}
-        onPress={() => navigation.navigate("RegisterPost")}
-      >
-        <Text style={styles.RegisterNewPostText}>+</Text>
-      </TouchableOpacity>
+      {authenticatedUser?.role !== "student" && (
+          <>
+            <TouchableOpacity
+              style={styles.RegisterNewPost}
+              onPress={() => navigation.navigate("RegisterPost")}
+            >
+              <Text style={styles.RegisterNewPostText}>+</Text>
+            </TouchableOpacity>
+          </>
+        )}
     </View>
   );
 }
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: colors.zinc[100]
+    backgroundColor: colors.zinc[100],
   },
   sidebar: {
     position: "absolute",
@@ -235,14 +235,14 @@ const styles = StyleSheet.create({
   },
   menuButtonText: {
     fontSize: 24,
-    color: colors.zinc[500],
+    color: colors.green[100],
   },
   infoField: {
     alignItems: "center",
     marginBottom: 10,
   },
   infoText: { fontSize: 18, fontWeight: "bold", color: colors.green[100] },
-  textAuthor: {fontSize: 12, color: colors.zinc[400]},
+  textAuthor: { fontSize: 12, color: colors.zinc[400] },
   headerText: {
     fontSize: 16,
     color: colors.zinc[500],
@@ -254,9 +254,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: colors.zinc[100], 
-    borderWidth: 1, 
-    borderColor: colors.green[700],
+    backgroundColor: colors.zinc[200],
+    borderWidth: 1,
+    borderColor: colors.zinc[400],
     // borderStyle: '',
   },
   postTitle: { fontSize: 16, fontWeight: "bold", color: colors.zinc[800] },
@@ -264,16 +264,16 @@ const styles = StyleSheet.create({
 
   RegisterNewPost: {
     position: "absolute",
-    bottom: 20, 
-    right: 20, 
-    width: 60, 
-    height: 60, 
-    borderRadius: 30, 
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: colors.green[700],
     justifyContent: "center",
     alignItems: "center",
-    elevation: 5, 
-    shadowColor: "#000", 
+    elevation: 5,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,

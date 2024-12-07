@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: "bold",
-    color: colors.green[100],
+    color: colors.zinc[800],
     textAlign: "center",
     marginBottom: 16,
   },

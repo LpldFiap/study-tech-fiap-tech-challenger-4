@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: colors.green[100],
+    color: colors.zinc[800],
     marginBottom: 16,
   },
   listContainer: {
