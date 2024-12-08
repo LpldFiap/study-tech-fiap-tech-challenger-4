@@ -85,3 +85,8 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 
 ```bash
 git clone https://github.com/LpldFiap/StudyTech.git
+
+## Apresentação
+
+![Vídeo apresentação desse Projeto](src/assets/apresentacao.mp4)
+- Caminho > *src/assets/apresentacao.zip*
