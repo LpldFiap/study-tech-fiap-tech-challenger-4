@@ -77,7 +77,7 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 
 ## Apresentação
 
-![Vídeo apresentação desse Projeto](src/assets/apresentacao.mp4)
+![Vídeo apresentação desse Projeto](src/apresentacao.zip)
 - Caminho > *src/assets/apresentacao.zip*
 
 ## API consumida neste projeto
