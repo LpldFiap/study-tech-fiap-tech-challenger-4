@@ -75,6 +75,10 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 - Permitir que usuários alterem as configurações de sua conta
 <img src="./assets/images/config.png" alt="Imagem da Página de Configuração de Usuário" width="200" />
 
+## Apresentação
+
+![Vídeo apresentação desse Projeto](src/assets/apresentacao.mp4)
+- Caminho > *src/assets/apresentacao.zip*
 
 ## API consumida neste projeto
 - Para facilitar as consultas, hospedamos a API na Vercel
@@ -86,7 +90,3 @@ A interface foi desenvolvida com **React Native**. A integração é feita com a
 ```bash
 git clone https://github.com/LpldFiap/StudyTech.git
 
-## Apresentação
-
-![Vídeo apresentação desse Projeto](src/assets/apresentacao.mp4)
-- Caminho > *src/assets/apresentacao.zip*
